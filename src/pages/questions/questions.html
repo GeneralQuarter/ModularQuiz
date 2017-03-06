@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      iQuiz
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>Questions Page</h1>
+  <form (ngSubmit)="answerSubmit()">
+    <h1 [(ngModel)]="currentQuestion.text"></h1>
+    <!-- TODO ngRepeat here with submit button -->
+    <button ion-button type="submit" block></button>
+  </form>
+</ion-content>
