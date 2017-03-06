@@ -1,16 +1,36 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      iQuiz
+      Modular Quiz - Questions {{totalAnswered}}/{{totalQuestions}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1>Questions Page</h1>
-  <form (ngSubmit)="answerSubmit()">
-    <h1 [(ngModel)]="currentQuestion.text"></h1>
-    <!-- TODO ngRepeat here with submit button -->
-    <button ion-button type="submit" block></button>
-  </form>
+  <h2>{{ currentQuestion.text }} ?</h2>
+  <ion-slides effect="fade">
+    <ion-slide>
+        <button *ngFor="let answer of currentQuestion.answers" (click)="answerClick(answer)" ion-button block>{{ answer }}</button>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-card-header [ngClass]="{rightAnswer: isAnswerCorrect, wrongAnswer: !isAnswerCorrect}">
+          Your answer: <b>{{ currentQuestion.answers[answerIndex] }}</b>
+        </ion-card-header>
+        <ion-card-content>
+          <span *ngIf="isAnswerCorrect">You guessed the right answer</span>
+          <span *ngIf="!isAnswerCorrect">You guessed the wrong answer the right answer was
+            <b>{{ currentQuestion.answers[currentQuestion.answerRightIndex] }}</b></span><br>
+          {{ currentQuestion.answerText }}
+        </ion-card-content>
+        <ion-row no-padding>
+          <ion-col text-right>
+            <button ion-button clear (click)="nextQuestion()">
+              Next Question
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

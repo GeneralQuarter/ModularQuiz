@@ -1,0 +1,19 @@
+page-questions {
+  .swiper-slide {
+    display: block;
+  }
+  .slide-zoom {
+    text-align: left;
+  }
+  ion-slide {
+    background-color: white;
+  }
+}
+
+.rightAnswer {
+  color: #33A244;
+}
+
+.wrongAnswer {
+  color: #F57127;
+}

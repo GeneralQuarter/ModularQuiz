@@ -1,5 +1,5 @@
-import {Injectable} from "angular2/core";
 import {Question} from "./question";
+import {Injectable} from "@angular/core";
 
 @Injectable()
 export class QuestionService {
@@ -12,7 +12,6 @@ export class QuestionService {
       new Question("Is is the last question", ["Yes", "No", "Don't know"], 0, "It is")
     ];
   }
-
 
   get questions(): Question[] {
     return this._questions;
