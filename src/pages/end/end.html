@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
       Modular Quiz - The End
     </ion-title>
@@ -7,6 +7,20 @@
 </ion-header>
 
 <ion-content padding>
-  <h1>The End !</h1>
-  <button ion-button (click)="goBack()" outline>Return to Home page</button>
+  <div text-center id="message">
+  <h1>Please submit your name & email for a chance to win & more information</h1>
+    <form (ngSubmit)="goBack()">
+      <ion-item no-padding>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-input type="text" placeholder="Name"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-icon name="mail" item-left></ion-icon>
+        <ion-input type="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <button ion-button outline block margin-top>Submit</button>
+    </form>
+    <br>
+    <p>Thank you for participating</p>
+  </div>
 </ion-content>

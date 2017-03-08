@@ -43,7 +43,6 @@ export class QuestionProvider {
               this.questions.push(question);
             }
 
-            console.log(this.questions);
             resolve(this.questions);
           });
       }

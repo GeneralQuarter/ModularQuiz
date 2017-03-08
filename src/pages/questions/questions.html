@@ -1,37 +1,44 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
-      Modular Quiz - Questions {{totalAnswered}}/{{totalQuestions}}
+      Modular Quiz - Questions
     </ion-title>
   </ion-navbar>
+
+  <ion-toolbar>
+    <ion-title>{{ currentQuestion.text }}</ion-title>
+    <ion-buttons end>
+      <button *ngIf="slides.getActiveIndex() === 1" ion-button primary (click)="nextQuestion()">
+        Next Question
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>{{ currentQuestion.text }}</h2>
   <ion-slides effect="fade">
     <ion-slide>
-        <button *ngFor="let answer of currentQuestion.answers" (click)="answerClick(answer)" ion-button block margin-vertical large>{{ answer.option }}</button>
+      <button *ngFor="let answer of currentQuestion.answers" (click)="answerClick(answer)" ion-button block
+              margin-vertical large>{{ answer.option }}
+      </button>
     </ion-slide>
     <ion-slide>
-      <ion-card>
-        <ion-card-header [ngClass]="{rightAnswer: isAnswerCorrect, wrongAnswer: !isAnswerCorrect}">
-          Your answer: <b>{{ currentQuestion.answers[answerIndex].option }}</b>
-        </ion-card-header>
-        <ion-card-content>
-          <span *ngIf="isAnswerCorrect">You guessed the right answer</span>
-          <span *ngIf="!isAnswerCorrect">You guessed the wrong answer the right answer was
-            <b>{{ currentQuestion.getRightAnswersOptionsText() }}</b></span><br>
-          {{ currentQuestion.answers[answerIndex].message }}<br>
-          {{ currentQuestion.answerText }}
-        </ion-card-content>
-        <ion-row no-padding>
-          <ion-col text-right>
-            <button ion-button (click)="nextQuestion()">
-              Next Question
-            </button>
-          </ion-col>
-        </ion-row>
-      </ion-card>
+      <h1 [ngClass]="{rightAnswer: isAnswerCorrect, wrongAnswer: !isAnswerCorrect}">
+        {{ currentQuestion.answers[answerIndex].option }}
+      </h1>
+      <h2 *ngIf="isAnswerCorrect">You guessed the right answer</h2>
+      <h2 *ngIf="!isAnswerCorrect">You guessed the wrong answer the right answer was
+            <b>{{ currentQuestion.getRightAnswersOptionsText() }}</b></h2><br>
+      <p>
+        {{ currentQuestion.answers[answerIndex].message }}<br>
+        {{ currentQuestion.answerText }}
+      </p>
     </ion-slide>
   </ion-slides>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>{{totalAnswered}}/{{totalQuestions}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

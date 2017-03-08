@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Slides} from 'ionic-angular';
+import {Slides, AlertController} from 'ionic-angular';
 
 import {NavController, ViewController} from 'ionic-angular';
 import {Question} from "../../providers/Question";
@@ -22,9 +22,11 @@ export class QuestionsPage {
   totalQuestions: number;
   totalAnswered: number;
 
+  showAlertMessage: boolean = true;
+
   constructor(public navCtrl: NavController,
-              private viewCtrl: ViewController,
-              private questionProvider: QuestionProvider
+              private questionProvider: QuestionProvider,
+              private alertCtrl: AlertController
   ) {
     this.questions = [];
     this.currentQuestion = new Question(0, "", [new Answer("", "", true)], "");
@@ -39,13 +41,10 @@ export class QuestionsPage {
     })
   }
 
-  ionViewWillEnter() {
-    this.viewCtrl.showBackButton(false);
-  }
-
   nextQuestion(): void {
     let question: Question = this.questions.pop();
     if (question == undefined) {
+      this.showAlertMessage = false;
       this.navCtrl.push(EndPage);
     } else {
       this.currentQuestion = question;
@@ -69,5 +68,30 @@ export class QuestionsPage {
     this.slides.lockSwipes(false);
     this.slides.slideNext();
     this.slides.lockSwipes(true);
+  }
+
+  ionViewCanLeave(): Promise<{}> {
+    return new Promise((resolve, reject) => {
+      if (this.showAlertMessage) {
+        let confirm = this.alertCtrl.create({
+          title: 'Are you sure?',
+          message: 'Bunnies will die :(',
+          buttons: [{
+            text: 'OK',
+            handler: () => {
+              resolve();
+            },
+          }, {
+            text: 'Cancel',
+            handler: () => {
+              reject();
+            }
+          }],
+        });
+        confirm.present();
+      } else {
+        resolve();
+      }
+    })
   }
 }
