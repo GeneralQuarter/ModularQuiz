@@ -1,15 +1,16 @@
 import {Component, ViewChild} from '@angular/core';
-import { Slides } from 'ionic-angular';
+import {Slides} from 'ionic-angular';
 
-import { NavController, ViewController } from 'ionic-angular';
-import { Question } from "../../providers/question";
-import {QuestionService} from "../../providers/question.service";
+import {NavController, ViewController} from 'ionic-angular';
+import {Question} from "../../providers/Question";
 import {EndPage} from "../end/end";
+import {QuestionProvider} from "../../providers/question-provider";
+import {Answer} from "../../providers/Answer";
 
 @Component({
   selector: 'page-questions',
   templateUrl: 'questions.html',
-  providers: [QuestionService],
+  providers: [QuestionProvider],
 })
 export class QuestionsPage {
   @ViewChild(Slides) slides: Slides;
@@ -17,33 +18,40 @@ export class QuestionsPage {
   questions: Question[];
   currentQuestion: Question;
   isAnswerCorrect: boolean;
-  answerIndex : number;
+  answerIndex: number;
   totalQuestions: number;
   totalAnswered: number;
 
-  constructor(
-    public navCtrl: NavController,
-    private viewCtrl: ViewController,
-    private questionService: QuestionService) {
-    this.questions = questionService.questions.reverse();
+  constructor(public navCtrl: NavController,
+              private viewCtrl: ViewController,
+              private questionProvider: QuestionProvider
+  ) {
+    this.questions = [];
+    this.currentQuestion = new Question(0, "", [new Answer("", "", true)], "");
     this.totalQuestions = this.questions.length;
     this.totalAnswered = 0;
-    this.nextQuestion();
+    this.answerIndex = 0;
+
+    questionProvider.load().then(questions => {
+      this.questions = questions.reverse();
+      this.totalQuestions = this.questions.length;
+      this.nextQuestion();
+    })
   }
 
   ionViewWillEnter() {
     this.viewCtrl.showBackButton(false);
   }
 
-  nextQuestion() : void {
-    let question : Question = this.questions.pop();
-    if(question == undefined) {
+  nextQuestion(): void {
+    let question: Question = this.questions.pop();
+    if (question == undefined) {
       this.navCtrl.push(EndPage);
     } else {
       this.currentQuestion = question;
       this.isAnswerCorrect = false;
       this.totalAnswered++;
-      if(this.slides != undefined) {
+      if (this.slides != undefined) {
         this.slides.lockSwipes(false);
         this.slides.slidePrev();
         this.slides.lockSwipes(true);
@@ -55,9 +63,9 @@ export class QuestionsPage {
     this.slides.lockSwipes(true);
   }
 
-  answerClick(value: string) : void {
-    this.answerIndex = this.currentQuestion.answers.indexOf(value);
-    this.isAnswerCorrect = this.answerIndex === this.currentQuestion.answerRightIndex;
+  answerClick(answer: Answer): void {
+    this.isAnswerCorrect = answer.correct;
+    this.answerIndex = this.currentQuestion.getIndexOfAnswer(answer);
     this.slides.lockSwipes(false);
     this.slides.slideNext();
     this.slides.lockSwipes(true);

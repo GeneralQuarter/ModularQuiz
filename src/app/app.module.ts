@@ -4,7 +4,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import {QuestionsPage} from "../pages/questions/questions";
 import {EndPage} from "../pages/end/end";
-import {QuestionService} from "../providers/question.service";
+import {QuestionProvider} from "../providers/question-provider";
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import {QuestionService} from "../providers/question.service";
     EndPage
   ],
   providers: [
-    QuestionService,
+    QuestionProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
