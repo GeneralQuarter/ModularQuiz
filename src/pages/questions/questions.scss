@@ -8,6 +8,16 @@ page-questions {
   ion-slide {
     background-color: white;
   }
+  .question-text div{
+    font-size: 3rem !important;
+  }
+  [icon-right] ion-icon {
+    font-size: 3.4rem;
+    padding: .2em;
+  }
+  .answer-text {
+    font-size: xx-large;
+  }
 }
 
 .rightAnswer {

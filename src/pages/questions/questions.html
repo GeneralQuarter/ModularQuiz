@@ -3,15 +3,16 @@
     <ion-title>
       Modular Quiz - Questions
     </ion-title>
+    <ion-buttons end>
+      <button *ngIf="slides.getActiveIndex() === 1" ion-button icon-right primary (click)="nextQuestion()">
+        Next Question
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
   <ion-toolbar>
-    <ion-title>{{ currentQuestion.text }}</ion-title>
-    <ion-buttons end>
-      <button *ngIf="slides.getActiveIndex() === 1" ion-button primary (click)="nextQuestion()">
-        Next Question
-      </button>
-    </ion-buttons>
+    <ion-title class="question-text">{{ currentQuestion.text }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -29,7 +30,7 @@
       <h2 *ngIf="isAnswerCorrect">You guessed the right answer</h2>
       <h2 *ngIf="!isAnswerCorrect">You guessed the wrong answer the right answer was
             <b>{{ currentQuestion.getRightAnswersOptionsText() }}</b></h2><br>
-      <p>
+      <p class="answer-text">
         {{ currentQuestion.answers[answerIndex].message }}<br>
         {{ currentQuestion.answerText }}
       </p>
